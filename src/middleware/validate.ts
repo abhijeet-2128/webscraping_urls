@@ -1,17 +1,17 @@
 import { ValidationOptions, registerDecorator, ValidationArguments } from 'class-validator';
 
-const alphabeticRegex = /^[a-zA-Z]+$/;
+const htmlTagsRegex = /^[a-z]+[^\s>\/]*$/i
 
-export function ContainsOnlyAlphabetic(validationOptions?: ValidationOptions) {
+export function ContainsHtmlTags(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {
         registerDecorator({
-            name: 'containsOnlyAlphabetic',
+            name: 'containsHtmlTags',
             target: object.constructor,
             propertyName: propertyName,
             options: validationOptions,
             validator: {
                 validate(value: any, args: ValidationArguments) {
-                    return alphabeticRegex.test(value);
+                    return htmlTagsRegex.test(value);
                 },
             },
         });

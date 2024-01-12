@@ -9,7 +9,7 @@ import {ConfigModule} from '@nestjs/config';
     ConfigModule.forRoot(),
     ScraperModule
   ],
-  controllers: [AppController ],
+  controllers: [AppController],
   providers: [AppService ],
 })
 export class AppModule {}

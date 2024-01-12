@@ -9,7 +9,7 @@ export const SCRAP_MSG = {
     INVALID_URL: `Invalid URL provided`
 }
 
-export const CHATRESPONSE = {
+export const SCRAP_RESPONSE = {
     SUCCESS: {
         httpCode: HTTP.SUCCESS,
         statusCode: HTTP.SUCCESS,
