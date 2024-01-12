@@ -1,16 +1,16 @@
-import { IsUrl, IsArray, ArrayNotEmpty, IsString, IsNotEmpty } from 'class-validator';
+import { IsUrl, IsString, IsNotEmpty, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { ContainsOnlyAlphabetic } from 'src/middleware/validate';
+import { ContainsHtmlTags } from 'src/middleware/validate';
 
 export class ScrapeUrlDto {
-  @ApiProperty({ example: 'https://en.wikipedia.org/wiki/English_Wikipedia', description: 'URL to scrape' })
+  @ApiProperty({ example: 'https://www.amazon.in/', description: 'URL to scrape' })
   @IsUrl({}, { message: 'Invalid URL provided' })
   url: string;
 
   @ApiProperty({ example: 'img', description: 'Selector for data extraction' })
   @IsString({ message: 'Selector must be a string' })
   @IsNotEmpty({ message: 'Selector must be provided' })
-  @ContainsOnlyAlphabetic({ message: 'Selector should contain only alphabetic letters. Please provide a valid html tag' })
+  @ContainsHtmlTags({ message: 'Selector should contain only alphabetic letters. Please provide a valid html tag' })
   selector: string;
 
   @ApiProperty({
@@ -18,8 +18,7 @@ export class ScrapeUrlDto {
     description: 'Attribute to extract from the selected elements',
   })
   @IsString({ message: 'Attribute must be a string' })
-  @IsNotEmpty({ message: 'Attribute must be provided' })
-  @ContainsOnlyAlphabetic({ message: 'Attribute should contain only alphabetic letters. Please provide a valid attribute' })
+  @IsOptional()
   attribute: string;
 }
 

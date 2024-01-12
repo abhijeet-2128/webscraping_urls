@@ -2,7 +2,7 @@ import { Controller, Post, Body, ValidationPipe, HttpException, HttpStatus } fro
 import { ScraperService } from './scraper.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 import { ScrapeUrlDto } from './dto/scrape.dto';
-import { CHATRESPONSE, SCRAP_MSG } from './common/responses/sraper.response';
+import { SCRAP_MSG, SCRAP_RESPONSE } from './common/responses/sraper.response';
 
 @ApiTags('Scraper')
 @Controller('scraper')
@@ -13,12 +13,12 @@ export class ScraperController {
 
   @Post()
   @ApiOperation({ summary: 'Scrape data from a given URL' })
-  @ApiResponse({ status: CHATRESPONSE.SUCCESS.httpCode, description: CHATRESPONSE.SUCCESS.message })
-  @ApiResponse({ status: CHATRESPONSE.NO_DATA.httpCode, description: CHATRESPONSE.NO_DATA.message })
-  @ApiResponse({ status: CHATRESPONSE.FORBIDDEN.httpCode, description: CHATRESPONSE.FORBIDDEN.message })
-  @ApiResponse({ status: CHATRESPONSE.NOT_FOUND.httpCode, description: CHATRESPONSE.NOT_FOUND.message })
-  @ApiResponse({ status: CHATRESPONSE.ERROR.httpCode, description: CHATRESPONSE.ERROR.message })
-  @ApiBadRequestResponse({ status: CHATRESPONSE.INVALID_URL.httpCode, description: CHATRESPONSE.INVALID_URL.message })
+  @ApiResponse({ status: SCRAP_RESPONSE.SUCCESS.httpCode, description: SCRAP_RESPONSE.SUCCESS.message })
+  @ApiResponse({ status: SCRAP_RESPONSE.NO_DATA.httpCode, description: SCRAP_RESPONSE.NO_DATA.message })
+  @ApiResponse({ status: SCRAP_RESPONSE.FORBIDDEN.httpCode, description: SCRAP_RESPONSE.FORBIDDEN.message })
+  @ApiResponse({ status: SCRAP_RESPONSE.NOT_FOUND.httpCode, description: SCRAP_RESPONSE.NOT_FOUND.message })
+  @ApiResponse({ status: SCRAP_RESPONSE.ERROR.httpCode, description: SCRAP_RESPONSE.ERROR.message })
+  @ApiBadRequestResponse({ status: SCRAP_RESPONSE.INVALID_URL.httpCode, description: SCRAP_RESPONSE.INVALID_URL.message })
 
   async scrapeUrl(
     @Body(new ValidationPipe({ transform: true })) body: ScrapeUrlDto,
@@ -27,9 +27,9 @@ export class ScraperController {
       const data = await this.scraperService.scrapeUrl(body);
 
       if (data.length > 0) {
-        return { ...CHATRESPONSE.SUCCESS, data };
+        return { ...SCRAP_RESPONSE.SUCCESS, data };
       } else {
-        return CHATRESPONSE.NO_DATA;
+        return SCRAP_RESPONSE.NO_DATA;
       }
     } catch (error) {
       if (error.response && error.response.status === 403) {
